@@ -4,7 +4,10 @@ var knex = require('knex')(require('../knexfile')['development']);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index');
+  knex('plants').innerJoin('gardeners', 'plants.gardener_id', 'gardeners.gardener_id')
+  .then(function(results){
+    res.render('index', {plantsAndGardeners: results});
+    console.log(results);
+  })
 });
-
-module.exports = router;
+module.exports=router;
